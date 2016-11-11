@@ -24,10 +24,11 @@ module.exports = function(opt, returnChild) {
     // start ourselves as a daemon
     child = module.exports.daemon(script, args, opt);
 
-    if returnChild
+    if (returnChild) {
         return child;
-    else
+    } else {
         return process.exit();
+    }
 };
 
 // daemonizes the script and returns the child process object

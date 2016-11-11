@@ -1,7 +1,7 @@
 var child_process = require('child_process');
 
 // daemonize ourselves
-module.exports = function(opt) {
+module.exports = function(opt, returnChild) {
     // we are a daemon, don't daemonize again
     if (process.env.__daemon) {
         return process.pid;
@@ -22,10 +22,12 @@ module.exports = function(opt) {
     env.__daemon = true;
 
     // start ourselves as a daemon
-    module.exports.daemon(script, args, opt);
+    child = module.exports.daemon(script, args, opt);
 
-    // parent is done
-    return process.exit();
+    if returnChild
+        return child;
+    else
+        return process.exit();
 };
 
 // daemonizes the script and returns the child process object
